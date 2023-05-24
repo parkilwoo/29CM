@@ -1,0 +1,5 @@
+database:
+  url: jdbc:h2:mem:29cm_db
+  driverClassName: org.h2.Driver
+  username: sa
+  password: password29
