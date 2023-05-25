@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Map;
 
-public class H2Database implements DatabaseConnector{
+public class MasterDatabase implements CommonDatabase{
 
     private Connection connection;
 
@@ -24,6 +24,12 @@ public class H2Database implements DatabaseConnector{
     public Connection connect(String url, String user, String password) throws ClassNotFoundException, SQLException {
         Class.forName(JDBC_DRIVER);
         this.connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+        connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
         return this.connection;
+    }
+
+    @Override
+    public void execute(String sql, String[] inputParameter) {
+        
     }
 }
