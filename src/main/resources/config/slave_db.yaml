@@ -1,4 +1,4 @@
-url: jdbc:h2:mem:29cm_slave_db
+url: jdbc:h2:mem:29cm_slave_db;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;
 driverClassName: org.h2.Driver
 username: sa
 password: password29

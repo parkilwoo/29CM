@@ -1,23 +1,35 @@
 package kr.co._29cm.homework.databse;
 
-import kr.co._29cm.homework.domain.Product;
-import kr.co._29cm.homework.util.Common;
+import kr.co._29cm.homework.Main;
 
 import java.io.FileNotFoundException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
+import java.sql.*;
+import java.util.Objects;
 
 public class MasterDatabase extends Database{
 
     private final int ISOLATION_LEVEL = Connection.TRANSACTION_SERIALIZABLE;
+    private final URL masterYamlUrl = Main.class.getClassLoader().getResource("config/master_db.yaml");
+    private final String masterYamlPath = Objects.requireNonNull(masterYamlUrl).getPath();
+    private final String FOR_UPDATE = " FOR UPDATE;";
 
-    private MasterDatabase(){}
+    private MasterDatabase() throws FileNotFoundException, ClassNotFoundException {
+        super.setupDatabase(masterYamlPath);
+    }
+
 
     private static class SingletonHelper{
-        private static final MasterDatabase INSTANCE = new MasterDatabase();
+        private static final MasterDatabase INSTANCE;
+
+        static {
+            try {
+                INSTANCE = new MasterDatabase();
+            } catch (FileNotFoundException | ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     public static MasterDatabase getInstance(){
@@ -25,33 +37,24 @@ public class MasterDatabase extends Database{
     }
 
 
-    public void setConnectInfo(String configPath) throws FileNotFoundException, ClassNotFoundException {
-        super.setConnectInfo(configPath);
-    }
-//    public void MasterDatabase(String configPath) throws Exception {
-//        super.setConnectInfo(configPath);
-//    }
-
     @Override
-    void setUpInitData(String initFilePath, InitFileFormat fileFormat) {
-
-    }
-
-    private void execute(Product product, DML queryType) throws IllegalAccessException {
-        String query = product.generateQuery(queryType);
-        super.update(query, ISOLATION_LEVEL);
+    public Connection getConnection() throws SQLException {
+        return super.connection();
     }
 
     @Override
-    <T> List<T> select(Product product) {
-        return null;
+    String generateWhereQueryForFindById(String idColumName, String value) {
+        return idColumName + "=" + value + FOR_UPDATE;
     }
+
     @Override
-    public void update(Product product) throws IllegalAccessException {
-        execute(product, DML.UPDATE);
+    public void update(Statement statement, String sql) throws SQLException {
+        super.updateUseStatement(statement, sql);
     }
-    @Override
-    public void insert(Product product) throws IllegalAccessException {
-        execute(product, DML.INSERT);
+
+    public<T> T findById(Class<? extends Orm> domainClass, Statement stmt, String idColumName, String value) throws SQLException, InvocationTargetException, NoSuchMethodException, IllegalAccessException, InstantiationException {
+        String whereQuery = generateWhereQueryForFindById(idColumName, value);
+        return super.findById(domainClass, stmt, whereQuery);
     }
+
 }
