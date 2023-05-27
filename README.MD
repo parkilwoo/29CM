@@ -40,7 +40,8 @@
 
 </aside>
 
-![Untitled](29CM%20%E1%84%87%E1%85%A2%E1%86%A8%E1%84%8B%E1%85%A6%E1%86%AB%E1%84%83%E1%85%B3%E1%84%91%E1%85%A9%E1%84%8C%E1%85%B5%E1%84%89%E1%85%A7%E1%86%AB%20%E1%84%80%E1%85%AA%E1%84%8C%E1%85%A6%20d8f0ebe92d80404aaa0e96a23ed271b0/Untitled.png)
+![image](https://github.com/parkilwoo/29CM/assets/56834479/c1ac3749-604a-4b9d-9247-9874236891b1)
+
 
 - Main클래스의 main 함수를 실행시키면 됩니다!
 
@@ -49,7 +50,7 @@
 
 </aside>
 
-![Untitled](29CM%20%E1%84%87%E1%85%A2%E1%86%A8%E1%84%8B%E1%85%A6%E1%86%AB%E1%84%83%E1%85%B3%E1%84%91%E1%85%A9%E1%84%8C%E1%85%B5%E1%84%89%E1%85%A7%E1%86%AB%20%E1%84%80%E1%85%AA%E1%84%8C%E1%85%A6%20d8f0ebe92d80404aaa0e96a23ed271b0/Untitled%201.png)
+![image](https://github.com/parkilwoo/29CM/assets/56834479/195395f7-1bbe-4050-897d-1370d83e395f)
 
 - 멀티쓰레드를 이용한 동시성 테스트는 제품의 갯수가 35개인 데이터를 이용하여 하나의 쓰레드에서 5개씩 구매를 실행
     - 7개의 주문내역이 출력되고 SoldOutException이 3번 나타났는지 확인
